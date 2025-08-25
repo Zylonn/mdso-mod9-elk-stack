@@ -2,9 +2,9 @@ metricbeat.modules:
   - module: elasticsearch
     xpack.enabled: true
     period: 10s
-    hosts: ${ELASTIC_HOSTS}
+    hosts: ["https://es01:9200","https://es02:9200","https://es03:9200"]
     ssl.enabled: true
-    ssl.certificate_authorities: "certs/ca/ca.crt"
+    ssl.certificate_authorities: "/usr/share/metricbeat/certs/ca/ca.crt"
     username: ${ELASTIC_USER}
     password: ${ELASTIC_PASSWORD}
 
@@ -16,6 +16,15 @@ metricbeat.modules:
     hosts: ${KIBANA_HOSTS}
     username: ${ELASTIC_USER}
     password: ${ELASTIC_PASSWORD}
+
+  # - module: system
+  #   period: 10s
+  #   hosts: ["localhost"]
+  #   cpu.metrics: [percentages]
+  #   process.include_top_n:
+  #     enabled: true
+  #     by_cpu: 5
+  #     by_memory: 5
 
   - module: docker
     metricsets:
@@ -39,9 +48,9 @@ setup.kibana:
   host: ${KIBANA_HOSTS}
 
 output.elasticsearch:
-  hosts: ${ELASTIC_HOSTS}
+  hosts: ["https://es01:9200","https://es02:9200","https://es03:9200"]
   username: ${ELASTIC_USER}
   password: ${ELASTIC_PASSWORD}
   ssl:
-    certificate_authorities: "certs/ca/ca.crt"
+    certificate_authorities: "/usr/share/metricbeat/certs/ca/ca.crt"
     verification_mode: full

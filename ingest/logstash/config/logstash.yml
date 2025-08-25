@@ -1,0 +1,6 @@
+pipeline.workers: 2
+pipeline.batch.size: 300
+pipeline.batch.delay: 5
+queue.type: memory
+config.reload.automatic: false
+log.level: info

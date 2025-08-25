@@ -56,6 +56,7 @@ services:
       - esdata02:/usr/share/elasticsearch/data
     environment:
       - node.name=es02
+      # - node.roles="data_warm"                  # Selecciono Nodo como WARM
       - cluster.name=${CLUSTER_NAME}
       - cluster.initial_master_nodes=es01,es02,es03
       - discovery.seed_hosts=es01,es03
@@ -103,6 +104,7 @@ services:
       - node.name=es03
       - cluster.name=${CLUSTER_NAME}
       - cluster.initial_master_nodes=es01,es02,es03
+      # - node.roles="data_cold"                                    # Selecciono nodo como COLD
       - discovery.seed_hosts=es01,es02
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - bootstrap.memory_lock=true
@@ -177,6 +179,7 @@ services:
         condition: service_healthy
     image: docker.elastic.co/beats/metricbeat:${STACK_VERSION}
     user: root
+    command: ["-e", "--strict.perms=false", "-c", "/usr/share/metricbeat/metricbeat.yml"]
     volumes:
       - ./certs:/usr/share/metricbeat/certs
       - metricbeatdata01:/usr/share/metricbeat/data
